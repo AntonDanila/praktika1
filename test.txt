@@ -142,7 +142,7 @@ int main() {
 
                 printf("\n");
                 printf("Время выполнения сортировки: ");
-                printf("%lf\n", time);
+                printf("%lf\n", time); ;
                 printf("Количество сравнений: %d\n", comparisons); // Вывод количества сравнений
                 system("pause");
                 break;
