@@ -1,0 +1,81 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <locale.h>
+#include <stdlib.h>
+#include <time.h>
+#include <conio.h>
+
+// Структура для узла бинарного дерева
+struct Node {
+    int data;
+    struct Node* left, * right;
+};
+
+// Функция для создания нового узла дерева
+struct Node* newNode(int data) {
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+    node->data = data;
+    node->left = node->right = NULL;
+    return node;
+}
+
+// Функция для вставки нового узла в бинарное дерево
+struct Node* insert(struct Node* node, int data, int* comparisons) {
+    (*comparisons)++; // Увеличиваем счётчик при каждом сравнении
+    if (node == NULL)
+        return newNode(data);
+    if (data < node->data)
+        node->left = insert(node->left, data, comparisons);
+    else if (data > node->data)
+        node->right = insert(node->right, data, comparisons);
+    return node;
+}
+
+// Функция для сохранения отсортированного массива в файл
+void storeSorted(struct Node* root, FILE* fp) {
+    if (root != NULL) {
+        storeSorted(root->left, fp);
+        fprintf(fp, "%d  ", root->data);
+        storeSorted(root->right, fp);
+    }
+}
+
+// Функция для сохранения отсортированного массива в файл (по возрастанию)
+void storeSortedAscending(struct Node* root, FILE* fp) {
+    if (root != NULL) {
+        storeSortedAscending(root->left, fp);
+        fprintf(fp, "%d  ", root->data);
+        storeSortedAscending(root->right, fp);
+    }
+}
+
+// Функция для сохранения отсортированного массива в файл (по убыванию)
+void storeSortedDescending(struct Node* root, FILE* fp) {
+    if (root != NULL) {
+        storeSortedDescending(root->right, fp);
+        fprintf(fp, "%d  ", root->data);
+        storeSortedDescending(root->left, fp);
+    }
+}
+
+// Функция для сортировки массива с помощью бинарного дерева
+void treeSort(int arr[], int n, int order, int* comparisons) { // order: 1 - возрастание, 2 - убывание
+    struct Node* root = NULL;
+    root = insert(root, arr[0], comparisons);
+    for (int i = 1; i < n; i++)
+        insert(root, arr[i], comparisons);
+    FILE* fp = fopen("output.txt", "w");
+    if (fp == NULL) {
+        printf("Ошибка при открытии файла!\n");
+        return;
+    }
+    if (order == 1) {
+        storeSortedAscending(root, fp);
+    }
+    else if (order == 2) {
+        storeSortedDescending(root, fp);
+    }
+    fclose(fp);
+    free(root);
+}
