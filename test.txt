@@ -1,0 +1,271 @@
+    fclose(f);
+    int comparisons = 0;
+    treeSort(array, k, r, &comparisons); // Сортировка по возрастанию
+     
+    f = fopen("output.txt", "r+");
+
+    for (int i = 0; i < k; i++) {
+        fscanf(f, "%d  ", &array[i]);
+    }
+
+    fclose(f);
+
+    f = fopen("input.txt", "w");
+
+    for (int i = 0; i < k; i++) {
+        fprintf(f, "%d  ", array[i]);
+    }
+
+    fclose(f);
+}
+int main() {
+    setlocale(LC_ALL, "Russian");
+    srand(time(NULL));
+
+    FILE* f;
+    int size;
+    int* array;
+    char ch;
+
+    do {
+        system("cls");
+        printf("\t\t\t[ МЕНЮ ]\n\n");
+        printf("1 - Сортировка по возрастанию\n");
+        printf("2 - Сортировка по убыванию\n");
+        printf("\nesc - выход\n\n>");
+        ch = _getch();
+
+        switch (ch) {
+        case '1': // Сортировка по возрастанию значений
+            system("cls");
+            printf("\t\t\t[ МЕНЮ ]\n\n");
+            printf("1 - Сортировка случайных данных \n");
+            printf("2 - Сортировка отсортированных данных\n");
+            printf("3 - Сортировка инвертированных данных\n");
+            printf("\nesc - выход\n\n>");
+            ch = _getch();
+
+            switch (ch) {
+            case '1': // Сортировка случайных
+                system("cls");
+                printf("Введите количество элементов массива: ");
+                scanf("%d", &size);
+                printf("\n");
+
+                array = (int*)malloc(size * sizeof(int));
+
+                printf("Массив случайных чисел: 'input.txt'\n");
+                f = fopen("input.txt", "w");
+
+                for (int i = 0; i < size; i++) {
+                    array[i] = rand()-rand();
+                    fprintf(f, "%d  ", array[i]);
+                }
+
+                fclose(f);
+                printf("Отсортированный массив: 'output.txt'\n");
+
+                time_t start = clock(); // Время до сортировки
+                int comparisons = 0; // Инициализация счетчика сравнений
+                treeSort(array, size, 1, &comparisons); // Сортировка по возрастанию
+
+                time_t stop = clock(); // Время после сортировки
+                double time = (stop - start) / 1000.0; // Время сортировки
+
+                printf("\n");
+                printf("Время выполнения сортировки: ");
+                printf("%lf\n", time);
+                printf("Количество сравнений: %d\n", comparisons); // Вывод количества сравнений
+                system("pause");
+                break;
+            case '2': // Сортировка отсортированных
+                system("cls");
+                printf("Введите количество элементов массива: ");
+                scanf("%d", &size);
+                printf("\n");
+
+                psort(size, 1);
+                array = (int*)malloc(size * sizeof(int));
+
+                f = fopen("input.txt", "r+");
+
+                for (int i = 0; i < size; i++) {
+                    fscanf(f, "%d  ", &array[i]);
+                }
+
+                fclose(f);
+
+                printf("Массив отсортированных чисел: 'input.txt'\n");
+      
+                start = clock(); // Время до сортировки
+                comparisons = 0; // Инициализация счетчика сравнений
+                treeSort(array, size, 1, &comparisons); // Сортировка по возрастанию
+                 
+                printf("Отсортированный массив: 'output.txt'\n");
+
+                stop = clock(); // Время после сортировки
+                time = (stop - start) / 1000.0; // Время сортировки
+
+                printf("\n");
+                printf("Время выполнения сортировки: ");
+                printf("%lf\n", time);
+                printf("Количество сравнений: %d\n", comparisons); // Вывод количества сравнений
+                system("pause");
+                break;
+            case '3': // Сортировка инвертированных
+                system("cls");
+                printf("Введите количество элементов массива: ");
+                scanf("%d", &size);
+                printf("\n");
+
+                psort(size, 2);
+                array = (int*)malloc(size * sizeof(int));
+
+                f = fopen("input.txt", "r+");
+
+                for (int i = 0; i < size; i++) {
+                    fscanf(f, "%d  ", &array[i]);
+                }
+
+                fclose(f);
+
+                printf("Инвертированный массив  чисел: 'input.txt'\n");
+
+                start = clock(); // Время до сортировки
+                comparisons = 0; // Инициализация счетчика сравнений
+                treeSort(array, size, 1, &comparisons); // Сортировка по возрастанию
+
+                printf("Отсортированный массив: 'output.txt'\n");
+
+                stop = clock(); // Время после сортировки
+                time = (stop - start) / 1000.0; // Время сортировки
+
+                printf("\n");
+                printf("Время выполнения сортировки: ");
+                printf("%lf\n", time);
+                printf("Количество сравнений: %d\n", comparisons); // Вывод количества сравнений
+                system("pause");
+                break;
+            }break;
+        case '2': // Сортировка по убыванию
+            system("cls");
+            printf("\t\t\t[ МЕНЮ ]\n\n");
+            printf("1 - Сортировка случайных данных \n");
+            printf("2 - Сортировка отсортированных данных\n");
+            printf("3 - Сортировка инвертированных данных\n");
+            printf("\nesc - выход\n\n>");
+            ch = _getch();
+            switch (ch) {
+            case '1':
+                system("cls");
+                printf("Введите количество элементов массива: ");
+                scanf("%d", &size);
+                printf("\n");
+
+                array = (int*)malloc(size * sizeof(int));
+
+                f = fopen("input.txt", "w");
+
+                for (int i = 0; i < size; i++) {
+                    fprintf(f, "%d  ", array[i]);
+                }
+
+                fclose(f);
+                printf("Массив случайных чисел: 'input.txt'\n");
+                f = fopen("input.txt", "w");
+
+                for (int i = 0; i < size; i++) {
+                    array[i] = rand() - rand();
+                    fprintf(f, "%d  ", array[i]);
+                }
+
+                fclose(f);
+                printf("Отсортированный массив: 'output.txt'\n");
+
+                time_t start2 = clock();
+                int comparisons = 0; // Сброс счетчика сравнений
+                treeSort(array, size, 2, &comparisons); // Сортировка по убыванию
+
+                time_t stop2 = clock();
+                double time2 = (stop2 - start2) / 1000.0;
+
+                printf("\n");
+                printf("Время выполнения сортировки: ");
+                printf("%lf\n", time2);
+                printf("Количество сравнений: %d\n", comparisons); // Вывод количества сравнений
+                system("pause");
+                break;
+            case '2': // Сортировка отсортированных
+                system("cls");
+                printf("Введите количество элементов массива: ");
+                scanf("%d", &size);
+                printf("\n");
+
+                psort(size, 2);
+                array = (int*)malloc(size * sizeof(int));
+
+                f = fopen("input.txt", "r+");
+
+                for (int i = 0; i < size; i++) {
+                    fscanf(f, "%d  ", &array[i]);
+                }
+
+                fclose(f);
+
+                printf("Массив отсортированных чисел: 'input.txt'\n");
+
+                time_t start = clock(); // Время до сортировки
+                comparisons = 0; // Инициализация счетчика сравнений
+                treeSort(array, size, 2, &comparisons); // Сортировка по убыванию
+
+                printf("Отсортированный массив: 'output.txt'\n");
+
+                time_t stop = clock(); // Время после сортировки
+                double time = (stop - start) / 1000.0; // Время сортировки
+
+                printf("\n");
+                printf("Время выполнения сортировки: ");
+                printf("%lf\n", time);
+                printf("Количество сравнений: %d\n", comparisons); // Вывод количества сравнений
+                system("pause");
+                break;
+            case '3': // Сортировка инвертированных
+                system("cls");
+                printf("Введите количество элементов массива: ");
+                scanf("%d", &size);
+                printf("\n");
+
+                psort(size, 1);
+                array = (int*)malloc(size * sizeof(int));
+
+                f = fopen("input.txt", "r+");
+
+                for (int i = 0; i < size; i++) {
+                    fscanf(f, "%d  ", &array[i]);
+                }
+
+                fclose(f);
+
+                printf("Инвертированный массив  чисел: 'input.txt'\n");
+
+                start = clock(); // Время до сортировки
+                comparisons = 0; // Инициализация счетчика сравнений
+                treeSort(array, size, 2, &comparisons); // Сортировка по убыванию
+
+                printf("Отсортированный массив: 'output.txt'\n");
+
+                stop = clock(); // Время после сортировки
+                time = (stop - start) / 1000.0; // Время сортировки
+
+                printf("\n");
+                printf("Время выполнения сортировки: ");
+                printf("%lf\n", time);
+                printf("Количество сравнений: %d\n", comparisons); // Вывод количества сравнений
+                system("pause");
+                break;
+            }
+        }
+    } while (ch != 27);
+
+    return 0;
+}
